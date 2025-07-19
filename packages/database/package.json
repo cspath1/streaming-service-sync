@@ -1,0 +1,42 @@
+{
+  "name": "@repo/database",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "clean": "rm -rf dist && rm -rf node_modules",
+    "clean:deploy": "rm -rf node_modules && rm -rf coverage && rm -rf test",
+    "db:push": "prisma db push",
+    "db:seed": "tsx src/seed.ts",
+    "format": "prisma format; prettier --write .",
+    "generate": "prisma generate",
+    "postgenerate": "tsup",
+    "lint": "oxlint . --max-warnings 0",
+    "studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.3.0",
+    "@repo/core": "workspace:*",
+    "zod": "^3.24.1"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^11.0.4",
+    "@nestjs/schematics": "^11.0.0"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^11.0.7",
+    "@repo/lint-config": "workspace:*",
+    "@repo/prettier-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.10.7",
+    "chokidar": "^4.0.3",
+    "oxlint": "^0.16.8",
+    "prettier": "^3.2.5",
+    "prisma": "^6.3.0",
+    "tsup": "^8.3.6",
+    "tsx": "4.19.1",
+    "typescript": "5.5.4",
+    "vitest": "^3.1.1",
+    "zocker": "^1.4.1"
+  }
+}

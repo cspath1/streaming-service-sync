@@ -1,0 +1,3 @@
+{
+  "extends": ["@repo/lint-config"]
+}

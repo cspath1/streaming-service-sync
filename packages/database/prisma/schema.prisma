@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+enum SyncAction {
+  SONG_ADDED
+  PLAYLIST_CREATED
+  PLAYLIST_UPDATED
+  ALBUM_ADDED
+}
+
+enum SyncStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+enum StreamingService {
+  SPOTIFY
+  APPLE_MUSIC
+}
+
+model SyncAudit {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  action     SyncAction
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  sync       Sync       @relation(fields: [syncId], references: [id])
+  syncId     String     @db.ObjectId
+  response   Json?
+  error      String?
+}
+
+model Sync {
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  source          StreamingService
+  destination     StreamingService
+  sourceId        String
+  destinationId   String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  audits          SyncAudit[]       @relation()
+}
