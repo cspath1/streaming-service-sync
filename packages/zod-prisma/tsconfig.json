@@ -1,0 +1,14 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "declaration": true,
+    // stricter type-checking for stronger correctness. Recommended by TS
+    "strict": true,
+    "rootDir": "./src",
+    "esModuleInterop": true
+  }
+}

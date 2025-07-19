@@ -1,0 +1,4 @@
+{
+  "extends": ["@repo/lint-config"],
+  "ignorePatterns": ["dist", "node_modules", "bin"]
+}
