@@ -42,37 +42,18 @@
       "persistent": true
     },
     "test:cov": {
-      "env": [
-        "KOMBO_API_KEY",
-        "KOMBO_API_URL",
-        "BOT_SECRET",
-        "JWT_SECRET",
-        "RECRUITICS_SIGNING_KEY"
-      ],
+      "env": ["BOT_SECRET", "JWT_SECRET"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "dependsOn": ["^build"]
     },
     "test:e2e": {
-      "env": [
-        "KOMBO_API_KEY",
-        "KOMBO_API_URL",
-        "BOT_SECRET",
-        "JWT_SECRET",
-        "RECRUITICS_SIGNING_KEY",
-        "DISPLAY_SERVER_LOGS"
-      ],
+      "env": ["BOT_SECRET", "JWT_SECRET", "DISPLAY_SERVER_LOGS"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "dependsOn": ["^build"],
       "cache": false
     },
     "dev": {
-      "env": [
-        "KOMBO_API_KEY",
-        "KOMBO_API_URL",
-        "BOT_SECRET",
-        "JWT_SECRET",
-        "RECRUITICS_SIGNING_KEY"
-      ],
+      "env": ["BOT_SECRET", "JWT_SECRET", "RECRUITICS_SIGNING_KEY"],
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env.local"],
       "cache": false,
