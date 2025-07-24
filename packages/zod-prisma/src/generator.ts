@@ -47,6 +47,8 @@ export const writeImportsForModel = (
   }
 
   const enumFields = model.fields.filter(f => f.kind === 'enum');
+  const enumSet = new Set(enumFields.map(f => f.type));
+
   // const relationFields = model.fields.filter(f => f.kind === 'object');
   const relativePath = path.relative(`${outputPath}/models`, clientPath);
 
@@ -55,7 +57,7 @@ export const writeImportsForModel = (
       kind: StructureKind.ImportDeclaration,
       isTypeOnly: enumFields.length === 0,
       moduleSpecifier: dotSlash(relativePath),
-      namedImports: enumFields.map(f => f.type),
+      namedImports: Array.from(enumSet).map(enumName => enumName),
     });
   }
 

@@ -230,13 +230,14 @@ var init_generator = __esm({
         });
       }
       const enumFields = model.fields.filter((f) => f.kind === "enum");
+      const enumSet = new Set(enumFields.map((f) => f.type));
       const relativePath = import_path.default.relative(`${outputPath}/models`, clientPath);
       if (enumFields.length > 0) {
         importSet.add({
           kind: import_ts_morph.StructureKind.ImportDeclaration,
           isTypeOnly: enumFields.length === 0,
           moduleSpecifier: dotSlash(relativePath),
-          namedImports: enumFields.map((f) => f.type)
+          namedImports: Array.from(enumSet).map((enumName) => enumName)
         });
       }
       const importList = Array.from(importSet);
