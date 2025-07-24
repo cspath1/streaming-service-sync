@@ -1,5 +1,5 @@
 {
-  "name": "bp_ats",
+  "name": "streaming-service-sync",
   "private": true,
   "prisma": {
     "schema": "packages/database/prisma/schema.prisma",

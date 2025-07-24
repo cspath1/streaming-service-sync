@@ -1,1 +1,1 @@
-# Boostpoint ATS Typescript Config
+# Shared Typescript Config

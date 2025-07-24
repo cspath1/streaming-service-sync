@@ -1,1 +1,1 @@
-# Boostpoint ATS Database Client
+# Database Client

@@ -1,1 +1,1 @@
-# Boostpoint ATS Core Library
+# Core Library
