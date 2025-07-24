@@ -1,0 +1,16 @@
+{
+  "name": "@repo/lint-config",
+  "version": "0.0.0",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "base.json",
+  "devDependencies": {
+    "oxlint": "^0.15.9"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "clean:deploy": "rm -rf node_modules"
+  }
+}

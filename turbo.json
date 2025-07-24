@@ -1,0 +1,63 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": ["NODE_ENV", "DATABASE_URL"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*", "src/**", "tsconfig.json"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+    },
+    "clean": {
+      "cache": false
+    },
+    "clean:deploy": {
+      "cache": false
+    },
+    "db:migrate:deploy": {},
+    "db:push": {},
+    "db:seed": { "cache": false },
+    "format": {},
+    "generate": {
+      "dependsOn": ["^generate"],
+      "cache": false
+    },
+    "lint": {},
+    "publish:package": {
+      "dependsOn": ["^generate"]
+    },
+    "publish:package:dry-run": {},
+    "sentry:sourcemaps": {
+      "env": ["SENTRY_AUTH_TOKEN"],
+      "cache": false
+    },
+    "start": {},
+    "test": {
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^build"]
+    },
+    "test:watch": {
+      "cache": false,
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^build"],
+      "persistent": true
+    },
+    "test:cov": {
+      "env": ["BOT_SECRET", "JWT_SECRET"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^build"]
+    },
+    "test:e2e": {
+      "env": ["BOT_SECRET", "JWT_SECRET", "DISPLAY_SERVER_LOGS"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "dev": {
+      "env": ["BOT_SECRET", "JWT_SECRET", "RECRUITICS_SIGNING_KEY"],
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env.local"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

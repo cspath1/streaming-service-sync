@@ -1,0 +1,22 @@
+{
+  "name": "@repo/core",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "generate": "tsup src/index.ts",
+    "build": "tsup src/index.ts",
+    "clean": "rm -rf dist && rm -rf node_modules",
+    "clean:deploy": "rm -rf node_modules && rm -rf coverage && rm -rf test",
+    "dev": "tsup src/index.ts --watch",
+    "format": "prisma format; prettier --write .",
+    "lint": "oxlint . --max-warnings 0"
+  },
+  "devDependencies": {
+    "@repo/lint-config": "workspace:*",
+    "@repo/prettier-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "tsup": "^8.3.6",
+    "typescript": "5.5.4"
+  }
+}
