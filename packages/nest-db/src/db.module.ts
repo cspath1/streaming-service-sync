@@ -6,4 +6,4 @@ import { SyncAuditDataModule } from './syncAudit/syncAudit.data.module';
   imports: [SyncDataModule, SyncAuditDataModule],
   exports: [SyncDataModule, SyncAuditDataModule],
 })
-export class DbModule {}
+export class DatabaseModule {}
