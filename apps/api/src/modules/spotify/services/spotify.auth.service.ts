@@ -11,7 +11,7 @@ export class SpotifyAuthService {
     this.clientSecret = process.env.SPOTIFY_CLIENT_SECRET || '';
   }
 
-  public async getAccessToken(): Promise<Result> {
+  public async getAccessToken(): Promise<Result<string>> {
     const authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       headers: {
