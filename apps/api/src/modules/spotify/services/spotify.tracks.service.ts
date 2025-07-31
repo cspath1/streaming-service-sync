@@ -1,20 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { SpotifyAuthService } from './spotify.auth.service';
-import { SpotifyAlbumDto } from '../models/albums/spotify.album.dto';
-import { SpotifySavedAlbumsResponse } from '../models/albums/spotify.savedAlbums.response';
 import { ErrorResult, Result, SuccessResult } from '@repo/core';
+import { SpotifySavedTracksResponse } from '../models/tracks/spotify.savedTracks.response';
 
 @Injectable()
-export class SpotifyAlbumsService {
-  private readonly logger = new Logger(SpotifyAlbumsService.name);
+export class SpotifyTracksService {
+  private readonly logger = new Logger(SpotifyTracksService.name);
 
   constructor(private readonly spotifyAuthService: SpotifyAuthService) {}
 
-  public async getSavedAlbums(
+  public async getSavedTracks(
     nextUrl: string | null = null,
-  ): Promise<Result<SpotifySavedAlbumsResponse>> {
+  ): Promise<Result<SpotifySavedTracksResponse>> {
     if (!nextUrl) {
-      nextUrl = 'https://api.spotify.com/v1/me/albums';
+      nextUrl = 'https://api.spotify.com/v1/me/tracks';
     }
     const accessTokenResult = await this.spotifyAuthService.getAccessToken();
 
@@ -33,21 +32,21 @@ export class SpotifyAlbumsService {
       });
 
       if (!response.ok) {
-        this.logger.error('Failed to fetch saved albums', {
+        this.logger.error('Failed to fetch saved tracks', {
           status: response.status,
           statusText: response.statusText,
         });
-        throw new Error('Failed to fetch saved albums');
+        throw new Error('Failed to fetch saved tracks');
       }
 
       const responseData = await response.json();
-      this.logger.log(`Fetching saved albums from: ${nextUrl}`);
-      return new SuccessResult(new SpotifySavedAlbumsResponse(responseData));
+      this.logger.log(`Fetching saved tracks from: ${nextUrl}`);
+      return new SuccessResult(new SpotifySavedTracksResponse(responseData));
     } catch (error) {
-      this.logger.error('Error fetching saved albums', error);
-      return new ErrorResult('Failed to fetch saved albums', [error]);
+      this.logger.error('Error fetching saved tracks', error);
+      return new ErrorResult('Failed to fetch saved tracks', [error]);
     }
   }
 
-  // TODO: Implement saveAlbum
+  // TODO: Implement saveTrack method
 }

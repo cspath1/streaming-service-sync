@@ -3,6 +3,7 @@ import { SpotifyAuthService } from './spotify.auth.service';
 import { ErrorResult, Result, SuccessResult } from '@repo/core';
 import { SpotifyPlaylistDto } from '../models/playlists/spotify.playlist.dto';
 import { SpotifyCreatePlaylistRequest } from '../models/playlists/spotify.createPlaylist.request';
+import { SpotifyGetPlaylistsResponse } from '../models/playlists/spotify.getPlaylists.response';
 
 @Injectable()
 export class SpotifyPlaylistsService {
@@ -10,9 +11,13 @@ export class SpotifyPlaylistsService {
 
   constructor(private readonly spotifyAuthService: SpotifyAuthService) {}
 
-  public async getPlaylists(): Promise<Result<SpotifyPlaylistDto[]>> {
-    let data: SpotifyPlaylistDto[] = [];
-    let nextUrl: string | null = 'https://api.spotify.com/v1/me/playlists';
+  public async getPlaylists(
+    nextUrl: string | null = null,
+  ): Promise<Result<SpotifyGetPlaylistsResponse>> {
+    if (!nextUrl) {
+      nextUrl = 'https://api.spotify.com/v1/me/playlists';
+    }
+
     const accessTokenResult = await this.spotifyAuthService.getAccessToken();
 
     if (!accessTokenResult.success) {
@@ -24,33 +29,28 @@ export class SpotifyPlaylistsService {
     }
 
     const accessToken = accessTokenResult.data;
-    while (nextUrl != null) {
-      try {
-        const response: Response = await fetch(nextUrl, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+    try {
+      const response: Response = await fetch(nextUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        this.logger.error('Failed to fetch playlists', {
+          status: response.status,
+          statusText: response.statusText,
         });
-
-        if (!response.ok) {
-          this.logger.error('Failed to fetch playlists', {
-            status: response.status,
-            statusText: response.statusText,
-          });
-          throw new Error('Failed to fetch playlists');
-        }
-
-        const responseData = await response.json();
-        data = data.concat(responseData.items);
-        nextUrl = responseData.next;
-      } catch (error) {
-        this.logger.error('Error fetching playlists', error);
-        return new ErrorResult('Failed to fetch playlists', [error]);
+        throw new Error('Failed to fetch playlists');
       }
-    }
 
-    return new SuccessResult(data);
+      const responseData = await response.json();
+      return new SuccessResult(new SpotifyGetPlaylistsResponse(responseData));
+    } catch (error) {
+      this.logger.error('Error fetching playlists', error);
+      return new ErrorResult('Failed to fetch playlists', [error]);
+    }
   }
 
   public async createPlaylist(
@@ -95,4 +95,6 @@ export class SpotifyPlaylistsService {
       return new ErrorResult('Failed to create playlist', [error]);
     }
   }
+
+  // TODO: Implement addTrackToPlaylist method
 }

@@ -1,7 +1,7 @@
 import { SpotifyArtistDto } from '../artists/spotify.artist.dto';
+import { SpotifyExternalIdsDto } from '../spotify.externalIds.dto';
 import { SpotifyExternalUrlsDto } from '../spotify.externalUrls.dto';
 import { SpotifyImageDto } from '../spotify.image.dto';
-import { SpotifyAlbumExternalIdsDto } from './spotify.album.externalIds.dto';
 
 export class SpotifyAlbumDto {
   albumType: string;
@@ -25,7 +25,7 @@ export class SpotifyAlbumDto {
     text: string;
     type: string;
   }[];
-  externalIds: SpotifyAlbumExternalIdsDto | null;
+  externalIds: SpotifyExternalIdsDto | null;
   label: string | null;
   popularity: number | null;
 
@@ -53,7 +53,7 @@ export class SpotifyAlbumDto {
     this.tracks = data.tracks?.items || [];
     this.copyrights = data.copyrights || [];
     this.externalIds = data.external_ids
-      ? new SpotifyAlbumExternalIdsDto(data.external_ids ?? {})
+      ? new SpotifyExternalIdsDto(data.external_ids ?? {})
       : null;
     this.label = data.label || null;
     this.popularity = data.popularity || null;

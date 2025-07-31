@@ -1,4 +1,4 @@
-export class SpotifyAlbumExternalIdsDto {
+export class SpotifyExternalIdsDto {
   isrc: string | null;
   ean: string | null;
   upc: string | null;
